@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+	
+	<!-- springmvc的配置： -->
+	
+	<!-- 注解驱动，作用：默认配置的升级版，原来的默认配置过期了。不是必须的，没有配置它springmvc也可以用。 -->
+	<mvc:annotation-driven></mvc:annotation-driven>
+	
+	<!-- 扫描Controller，不能省略 -->
+	<context:component-scan base-package="com.taotao.cart.controller"/>
+	
+	<!-- 扫描资源文件： -->
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<!-- 允许JVM参数覆盖 -->
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<!-- 忽略没有找到的资源文件 -->
+		<property name="ignoreResourceNotFound" value="true" />
+		<!-- 配置资源文件 -->
+		<property name="locations">
+			<list>
+				<value>classpath:environment.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 视图解析器 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/"/>
+		<property name="suffix" value=".jsp"/>
+	</bean>
+	
+	<!-- 配置拦截器： -->
+	<mvc:interceptors>
+		<mvc:interceptor >
+			<mvc:mapping path="/cart/**"/>
+			<bean class="com.taotao.cart.interceptors.CheckLoginInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	<!-- 配置SimpleMappingExceptionResolver-使所有异常进行统一处理:出现某个异常及转到哪个页面的处理 -->
+	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<!-- 自定义异常的属性名，但一般不对异常的属性名进行配置，用默认的exception即可 -->
+		<!-- <property name="exceptionAttribute" value="ex"></property> -->
+	</bean>
+	
+</beans>
