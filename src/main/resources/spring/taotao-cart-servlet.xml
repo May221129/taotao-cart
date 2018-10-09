@@ -40,7 +40,7 @@
 	<mvc:interceptors>
 		<mvc:interceptor >
 			<mvc:mapping path="/cart/**"/>
-			<bean class="com.taotao.cart.interceptors.CheckLoginInterceptor"></bean>
+			<bean class="com.taotao.cart.interceptors.CartCheckoutIsLoginInterceptor"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors>
 	

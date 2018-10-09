@@ -122,6 +122,8 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-io</artifactId>
 		</dependency>
+		
+		<!-- dubbo： -->
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>dubbo</artifactId>
@@ -134,13 +136,11 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
 		<dependency>
 			<groupId>org.apache.zookeeper</groupId>
 			<artifactId>zookeeper</artifactId>
 			<version>3.3.3</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.github.sgroschupf</groupId>
 			<artifactId>zkclient</artifactId>

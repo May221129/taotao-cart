@@ -19,8 +19,9 @@ import com.taotao.cart.bean.Item;
 import com.taotao.cart.service.CartCookieService;
 import com.taotao.cart.service.CartService;
 import com.taotao.cart.service.ItemService;
-import com.taotao.common.bean.User;
+import com.taotao.common.annotation.CheckoutToken;
 import com.taotao.common.threadLocal.UserThreadLocal;
+import com.taotao.sso.query.bean.User;
 
 /**
  * 购物车。
@@ -44,6 +45,7 @@ public class CartController {
 	 * 写cookie涉及到response对象，读cookie涉及到request对象。
 	 * @return String：视图名：如果是以"redirect:"开头就做重定向。
 	 */
+	@CheckoutToken
 	@RequestMapping(value = "/add/{itemId}", method = RequestMethod.GET)
 	public String addItemToCart(@PathVariable("itemId") Long itemId, HttpServletRequest request,
 			HttpServletResponse response) {
@@ -71,6 +73,7 @@ public class CartController {
 	 * 根据用户id查看购物车详情 
 	 * url:http://cart.taotao.com/cart/list.html
 	 */
+	@CheckoutToken
 	@RequestMapping(value = "list", method = RequestMethod.GET)
 	public ModelAndView toCartByUserId(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("cart");
@@ -90,7 +93,11 @@ public class CartController {
 
 		return mv;
 	}
-
+	
+	/**
+	 * 根据用户id更新购物车中某商品的数量。
+	 */
+	@CheckoutToken
 	@RequestMapping(value = "update/num/{itemId}/{num}", method = RequestMethod.POST)
 	public ResponseEntity<Void> updateNum(@PathVariable("itemId") Long itemId, @PathVariable("num") Integer num,
 			HttpServletRequest request, HttpServletResponse response) {
@@ -108,7 +115,11 @@ public class CartController {
 		}
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
-
+	
+	/**
+	 * 根据商品id删除购物车中的该商品。
+	 */
+	@CheckoutToken
 	@RequestMapping(value = "delete/{itemId}", method = RequestMethod.GET)
 	public String delete(@PathVariable("itemId") Long itemId, HttpServletRequest request,
 			HttpServletResponse response) {
